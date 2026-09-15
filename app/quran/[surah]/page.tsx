@@ -8,6 +8,7 @@ import { getAyahTafsir } from "@/lib/api/tafsir";
 import { useAudio } from "@/providers/audio-provider";
 import { useSettings } from "@/providers/settings-provider";
 import { Surah, Ayah } from "@/types";
+import { WordPracticeModal } from "@/components/quran/word-practice-modal";
 import {
   Play,
   Pause,
@@ -16,13 +17,14 @@ import {
   ChevronLeft,
   ChevronRight,
   Sliders,
+  Mic,
 } from "lucide-react";
 
 export default function SurahReaderPage({ params }: { params: Promise<{ surah: string }> }) {
   const resolvedParams = use(params);
   const surahNumber = parseInt(resolvedParams.surah) || 1;
 
-  const { settings, updateSettings } = useSettings();
+  const { settings, updateSettings, t } = useSettings();
   const { currentTrack, isPlaying, playTrack, togglePlay, setNextTrackHandler } = useAudio();
 
   const [surah, setSurah] = useState<Surah | null>(null);
@@ -31,6 +33,7 @@ export default function SurahReaderPage({ params }: { params: Promise<{ surah: s
   const [readingMode, setReadingMode] = useState<"continuous" | "mushaf">("continuous");
   const [selectedTafsir, setSelectedTafsir] = useState<{ surah: number; ayah: number; text: string; author: string } | null>(null);
   const [copiedAyah, setCopiedAyah] = useState<number | null>(null);
+  const [practiceWord, setPracticeWord] = useState<{ word: string; surahNum: number; ayahNum: number; wordIdx: number } | null>(null);
 
   useEffect(() => {
     async function loadData() {
@@ -121,7 +124,7 @@ export default function SurahReaderPage({ params }: { params: Promise<{ surah: s
             className="flex items-center gap-1 hover:text-white transition"
           >
             <ChevronLeft className="h-4 w-4" />
-            <span>{surahNumber > 1 ? `Surah ${surahNumber - 1}` : "Surahs"}</span>
+            <span>{surahNumber > 1 ? `Surah ${surahNumber - 1}` : t.allSurahs}</span>
           </Link>
 
           <span className="font-semibold uppercase tracking-widest text-[11px] bg-emerald-700/50 px-3 py-1 rounded-full">
@@ -132,7 +135,7 @@ export default function SurahReaderPage({ params }: { params: Promise<{ surah: s
             href={surahNumber < 114 ? `/quran/${surahNumber + 1}` : "/quran"}
             className="flex items-center gap-1 hover:text-white transition"
           >
-            <span>{surahNumber < 114 ? `Surah ${surahNumber + 1}` : "Surahs"}</span>
+            <span>{surahNumber < 114 ? `Surah ${surahNumber + 1}` : t.allSurahs}</span>
             <ChevronRight className="h-4 w-4" />
           </Link>
         </div>
@@ -194,6 +197,8 @@ export default function SurahReaderPage({ params }: { params: Promise<{ surah: s
               currentTrack?.ayahNumber === ayah.numberInSurah &&
               isPlaying;
 
+            const words = ayah.text.split(" ");
+
             return (
               <div
                 key={ayah.numberInSurah}
@@ -216,7 +221,7 @@ export default function SurahReaderPage({ params }: { params: Promise<{ surah: s
                     <button
                       onClick={() => handlePlayAyah(ayah)}
                       className="p-1.5 rounded-lg text-emerald-800 hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/50 transition"
-                      title="Play Audio"
+                      title={t.play}
                     >
                       {isPlayingThis ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
                     </button>
@@ -224,7 +229,7 @@ export default function SurahReaderPage({ params }: { params: Promise<{ surah: s
                     <button
                       onClick={() => handleOpenTafsir(surahNumber, ayah.numberInSurah)}
                       className="p-1.5 rounded-lg text-muted-foreground hover:text-emerald-700 transition"
-                      title="Read Tafsir"
+                      title={t.tafsir}
                     >
                       <Book className="h-4 w-4" />
                     </button>
@@ -232,24 +237,42 @@ export default function SurahReaderPage({ params }: { params: Promise<{ surah: s
                     <button
                       onClick={() => handleCopyAyah(ayah)}
                       className="p-1.5 rounded-lg text-muted-foreground hover:text-emerald-700 transition"
-                      title="Copy Ayah"
+                      title={t.copy}
                     >
                       <Copy className="h-4 w-4" />
                     </button>
 
                     {copiedAyah === ayah.numberInSurah && (
-                      <span className="text-[10px] text-emerald-600 font-bold">Copied!</span>
+                      <span className="text-[10px] text-emerald-600 font-bold">{t.copied}</span>
                     )}
                   </div>
                 </div>
 
-                <div className="py-6 text-right" dir="rtl">
-                  <p
-                    className="font-arabic font-bold text-emerald-950 dark:text-emerald-100 leading-widest"
+                <div className="py-6 text-right flex flex-wrap flex-row-reverse gap-x-2 gap-y-3 leading-widest" dir="rtl">
+                  {words.map((w, wIdx) => (
+                    <span
+                      key={wIdx}
+                      onClick={() =>
+                        setPracticeWord({
+                          word: w,
+                          surahNum: surahNumber,
+                          ayahNum: ayah.numberInSurah,
+                          wordIdx: wIdx,
+                        })
+                      }
+                      className="font-arabic font-bold text-emerald-950 dark:text-emerald-100 hover:text-emerald-600 hover:bg-emerald-800/10 dark:hover:bg-emerald-800/30 rounded-lg px-1 transition cursor-pointer inline-block"
+                      style={{ fontSize: `${settings.arabic_font_size || 28}px` }}
+                      title="Click word to practice pronunciation"
+                    >
+                      {w}
+                    </span>
+                  ))}
+                  <span
+                    className="font-arabic font-bold text-emerald-700 dark:text-emerald-400 self-center"
                     style={{ fontSize: `${settings.arabic_font_size || 28}px` }}
                   >
-                    {ayah.text} ﴿{ayah.numberInSurah}﴾
-                  </p>
+                    ﴿{ayah.numberInSurah}﴾
+                  </span>
                 </div>
 
                 <div className="pt-2 text-muted-foreground text-sm md:text-base leading-relaxed">
@@ -274,18 +297,28 @@ export default function SurahReaderPage({ params }: { params: Promise<{ surah: s
         </div>
       )}
 
+      {practiceWord && (
+        <WordPracticeModal
+          word={practiceWord.word}
+          surahNumber={practiceWord.surahNum}
+          ayahNumber={practiceWord.ayahNum}
+          wordIndex={practiceWord.wordIdx}
+          onClose={() => setPracticeWord(null)}
+        />
+      )}
+
       {selectedTafsir && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-xs">
           <div className="max-w-2xl w-full rounded-3xl bg-card border border-emerald-900/20 p-6 shadow-2xl space-y-4 max-h-[80vh] overflow-y-auto">
             <div className="flex items-center justify-between border-b pb-3">
               <h3 className="text-lg font-bold text-foreground font-serif">
-                Tafsir — Surah {surahNumber}:{selectedTafsir.ayah}
+                {t.tafsir} — Surah {surahNumber}:{selectedTafsir.ayah}
               </h3>
               <button
                 onClick={() => setSelectedTafsir(null)}
                 className="text-xs font-bold px-2 py-1 rounded bg-muted hover:bg-emerald-100"
               >
-                Close
+                {t.close}
               </button>
             </div>
 

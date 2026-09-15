@@ -13,10 +13,12 @@ type AudioContextType = {
   currentTrack: AudioTrack | null;
   isPlaying: boolean;
   playbackSpeed: number;
+  repeatMode: "none" | "ayah" | "surah";
   playTrack: (track: AudioTrack) => void;
   pauseTrack: () => void;
   togglePlay: () => void;
   setSpeed: (speed: number) => void;
+  setRepeatMode: (mode: "none" | "ayah" | "surah") => void;
   setNextTrackHandler: (handler: () => void) => void;
 };
 
@@ -24,10 +26,12 @@ const AudioContext = createContext<AudioContextType>({
   currentTrack: null,
   isPlaying: false,
   playbackSpeed: 1,
+  repeatMode: "none",
   playTrack: () => {},
   pauseTrack: () => {},
   togglePlay: () => {},
   setSpeed: () => {},
+  setRepeatMode: () => {},
   setNextTrackHandler: () => {},
 });
 
@@ -35,6 +39,8 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   const [currentTrack, setCurrentTrack] = useState<AudioTrack | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
+  const [repeatMode, setRepeatMode] = useState<"none" | "ayah" | "surah">("none");
+
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const nextHandlerRef = useRef<(() => void) | null>(null);
 
@@ -43,9 +49,13 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     const audio = audioRef.current;
 
     const handleEnded = () => {
-      setIsPlaying(false);
-      if (nextHandlerRef.current) {
+      if (repeatMode === "ayah" && audio) {
+        audio.currentTime = 0;
+        audio.play();
+      } else if (nextHandlerRef.current) {
         nextHandlerRef.current();
+      } else {
+        setIsPlaying(false);
       }
     };
 
@@ -54,7 +64,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       audio.removeEventListener("ended", handleEnded);
       audio.pause();
     };
-  }, []);
+  }, [repeatMode]);
 
   const playTrack = (track: AudioTrack) => {
     if (!audioRef.current) return;
@@ -100,10 +110,12 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         currentTrack,
         isPlaying,
         playbackSpeed,
+        repeatMode,
         playTrack,
         pauseTrack,
         togglePlay,
         setSpeed,
+        setRepeatMode,
         setNextTrackHandler,
       }}
     >

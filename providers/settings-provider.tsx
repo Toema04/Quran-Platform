@@ -1,7 +1,8 @@
 "use client";
 
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { UserSettings } from "@/types";
+import { getTranslation, Language } from "@/lib/translations";
 
 const defaultSettings: UserSettings = {
   theme: "system",
@@ -20,11 +21,13 @@ const defaultSettings: UserSettings = {
 type SettingsContextType = {
   settings: UserSettings;
   updateSettings: (newSettings: Partial<UserSettings>) => void;
+  t: ReturnType<typeof getTranslation>;
 };
 
 const SettingsContext = createContext<SettingsContextType>({
   settings: defaultSettings,
   updateSettings: () => {},
+  t: getTranslation("en"),
 });
 
 export function SettingsProvider({ children }: { children: React.ReactNode }) {
@@ -42,6 +45,14 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     return defaultSettings;
   });
 
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      const lang = settings.language || "en";
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+    }
+  }, [settings.language]);
+
   const updateSettings = (newSettings: Partial<UserSettings>) => {
     setSettings((prev) => {
       const updated = { ...prev, ...newSettings };
@@ -52,8 +63,10 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
+  const t = getTranslation(settings.language as Language);
+
   return (
-    <SettingsContext.Provider value={{ settings, updateSettings }}>
+    <SettingsContext.Provider value={{ settings, updateSettings, t }}>
       {children}
     </SettingsContext.Provider>
   );

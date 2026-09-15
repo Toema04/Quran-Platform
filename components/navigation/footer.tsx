@@ -1,49 +1,54 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
+import { useSettings } from "@/providers/settings-provider";
 
 export function Footer() {
+  const { t } = useSettings();
+
   return (
     <footer className="border-t border-emerald-900/10 bg-card py-10 px-4 md:px-8 text-xs text-muted-foreground mt-auto">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
         <div className="space-y-2">
-          <h3 className="font-serif font-bold text-base text-foreground">Quran Platform</h3>
+          <h3 className="font-serif font-bold text-base text-foreground">{t.brand}</h3>
           <p className="leading-relaxed">
-            A premium, distraction-free Quran reading, audio, and study platform for Muslims worldwide.
+            {t.tagline}
           </p>
         </div>
 
         <div className="space-y-2">
-          <h4 className="font-bold text-foreground uppercase tracking-wider text-[11px]">Quran</h4>
+          <h4 className="font-bold text-foreground uppercase tracking-wider text-[11px]">{t.quran}</h4>
           <ul className="space-y-1">
-            <li><Link href="/quran" className="hover:underline">All Surahs</Link></li>
-            <li><Link href="/juz" className="hover:underline">30 Juz</Link></li>
-            <li><Link href="/hizb" className="hover:underline">Hizb Quarters</Link></li>
-            <li><Link href="/reciters" className="hover:underline">Qaris & Reciters</Link></li>
+            <li><Link href="/quran" className="hover:underline">{t.allSurahs}</Link></li>
+            <li><Link href="/juz" className="hover:underline">{t.thirtyJuz}</Link></li>
+            <li><Link href="/hizb" className="hover:underline">{t.hizbQuarters}</Link></li>
+            <li><Link href="/reciters" className="hover:underline">{t.qarisReciters}</Link></li>
           </ul>
         </div>
 
         <div className="space-y-2">
-          <h4 className="font-bold text-foreground uppercase tracking-wider text-[11px]">Tools</h4>
+          <h4 className="font-bold text-foreground uppercase tracking-wider text-[11px]">{t.tools}</h4>
           <ul className="space-y-1">
-            <li><Link href="/prayer-times" className="hover:underline">Prayer Times</Link></li>
-            <li><Link href="/qibla" className="hover:underline">Qibla Direction</Link></li>
-            <li><Link href="/ramadan" className="hover:underline">Ramadan Companion</Link></li>
-            <li><Link href="/tafsir" className="hover:underline">Classical Tafsir</Link></li>
+            <li><Link href="/prayer-times" className="hover:underline">{t.prayerTimes}</Link></li>
+            <li><Link href="/qibla" className="hover:underline">{t.qiblaDirection}</Link></li>
+            <li><Link href="/ramadan" className="hover:underline">{t.ramadanCompanion}</Link></li>
+            <li><Link href="/tafsir" className="hover:underline">{t.classicalTafsir}</Link></li>
           </ul>
         </div>
 
         <div className="space-y-2">
-          <h4 className="font-bold text-foreground uppercase tracking-wider text-[11px]">Legal & About</h4>
+          <h4 className="font-bold text-foreground uppercase tracking-wider text-[11px]">{t.legal}</h4>
           <ul className="space-y-1">
-            <li><Link href="/about" className="hover:underline">About Project</Link></li>
-            <li><Link href="/privacy" className="hover:underline">Privacy Policy</Link></li>
-            <li><Link href="/terms" className="hover:underline">Terms of Service</Link></li>
+            <li><Link href="/about" className="hover:underline">{t.about}</Link></li>
+            <li><Link href="/privacy" className="hover:underline">{t.privacy}</Link></li>
+            <li><Link href="/terms" className="hover:underline">{t.terms}</Link></li>
           </ul>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto pt-8 mt-8 border-t border-emerald-900/10 text-center">
-        <p>© {new Date().getFullYear()} Holy Quran Platform. All Quranic data sourced from verified authentic endpoints.</p>
+        <p>© {new Date().getFullYear()} {t.brand}. {t.copyright}</p>
       </div>
     </footer>
   );
