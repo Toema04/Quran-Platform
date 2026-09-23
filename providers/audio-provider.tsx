@@ -14,12 +14,14 @@ type AudioContextType = {
   isPlaying: boolean;
   playbackSpeed: number;
   repeatMode: "none" | "ayah" | "surah";
+  audioError: string | null;
   playTrack: (track: AudioTrack) => void;
   pauseTrack: () => void;
   togglePlay: () => void;
   setSpeed: (speed: number) => void;
   setRepeatMode: (mode: "none" | "ayah" | "surah") => void;
   setNextTrackHandler: (handler: () => void) => void;
+  clearError: () => void;
 };
 
 const AudioContext = createContext<AudioContextType>({
@@ -27,12 +29,14 @@ const AudioContext = createContext<AudioContextType>({
   isPlaying: false,
   playbackSpeed: 1,
   repeatMode: "none",
+  audioError: null,
   playTrack: () => {},
   pauseTrack: () => {},
   togglePlay: () => {},
   setSpeed: () => {},
   setRepeatMode: () => {},
   setNextTrackHandler: () => {},
+  clearError: () => {},
 });
 
 export function AudioProvider({ children }: { children: React.ReactNode }) {
@@ -40,6 +44,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
   const [repeatMode, setRepeatMode] = useState<"none" | "ayah" | "surah">("none");
+  const [audioError, setAudioError] = useState<string | null>(null);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const nextHandlerRef = useRef<(() => void) | null>(null);
@@ -59,19 +64,34 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       }
     };
 
+    const handleError = (e: Event) => {
+      console.error("Audio playback error event:", e);
+      setIsPlaying(false);
+      setAudioError("Audio is currently unavailable for this reciter. Please try another reciter.");
+    };
+
     audio.addEventListener("ended", handleEnded);
+    audio.addEventListener("error", handleError);
+
     return () => {
       audio.removeEventListener("ended", handleEnded);
+      audio.removeEventListener("error", handleError);
       audio.pause();
     };
   }, [repeatMode]);
 
   const playTrack = (track: AudioTrack) => {
     if (!audioRef.current) return;
+    setAudioError(null);
     setCurrentTrack(track);
     audioRef.current.src = track.audioUrl;
     audioRef.current.playbackRate = playbackSpeed;
-    audioRef.current.play();
+
+    audioRef.current.play().catch((err) => {
+      console.error("Audio play error:", err);
+      setIsPlaying(false);
+      setAudioError("Unable to play audio. Please check network connection or try another reciter.");
+    });
     setIsPlaying(true);
   };
 
@@ -88,7 +108,11 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       audioRef.current.pause();
       setIsPlaying(false);
     } else if (currentTrack) {
-      audioRef.current.play();
+      audioRef.current.play().catch((err) => {
+        console.error("Audio resume error:", err);
+        setIsPlaying(false);
+        setAudioError("Unable to resume audio playback.");
+      });
       setIsPlaying(true);
     }
   };
@@ -104,6 +128,8 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     nextHandlerRef.current = handler;
   };
 
+  const clearError = () => setAudioError(null);
+
   return (
     <AudioContext.Provider
       value={{
@@ -111,12 +137,14 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         isPlaying,
         playbackSpeed,
         repeatMode,
+        audioError,
         playTrack,
         pauseTrack,
         togglePlay,
         setSpeed,
         setRepeatMode,
         setNextTrackHandler,
+        clearError,
       }}
     >
       {children}

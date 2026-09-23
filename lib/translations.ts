@@ -20,6 +20,8 @@ export const translations = {
     favorites: "Favorites",
     dashboard: "Dashboard",
     hizb: "Hizb",
+    adhkar: "Adhkar & Duas",
+    quiz: "Islamic Quiz",
 
     // Header & Mobile
     searchPlaceholder: "Search Quran, Surahs, translations...",
@@ -77,6 +79,8 @@ export const translations = {
     favorites: "المفضلة",
     dashboard: "لوحة التحكم",
     hizb: "الأحزاب",
+    adhkar: "الأذكار والأدعية",
+    quiz: "مسابقة معارف إسلامية",
 
     // Header & Mobile
     searchPlaceholder: "ابحث في القرآن، السور، التفاسير...",

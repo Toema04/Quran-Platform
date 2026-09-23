@@ -30,6 +30,8 @@ export function Footer() {
         <div className="space-y-2">
           <h4 className="font-bold text-foreground uppercase tracking-wider text-[11px]">{t.tools}</h4>
           <ul className="space-y-1">
+            <li><Link href="/adhkar" className="hover:underline">{t.adhkar}</Link></li>
+            <li><Link href="/quiz" className="hover:underline">{t.quiz}</Link></li>
             <li><Link href="/prayer-times" className="hover:underline">{t.prayerTimes}</Link></li>
             <li><Link href="/qibla" className="hover:underline">{t.qiblaDirection}</Link></li>
             <li><Link href="/ramadan" className="hover:underline">{t.ramadanCompanion}</Link></li>
