@@ -4,19 +4,24 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { getSurahs } from "@/lib/api/quran";
 import { Surah } from "@/types";
-import { Search, BookOpen } from "lucide-react";
+import { Search, BookOpen, BookmarkCheck } from "lucide-react";
 
 export default function QuranBrowserPage() {
   const [surahs, setSurahs] = useState<Surah[]>([]);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<"all" | "Meccan" | "Medinan">("all");
   const [loading, setLoading] = useState(true);
+  const [lastReadPage, setLastReadPage] = useState<number | null>(null);
 
   useEffect(() => {
     async function loadSurahs() {
       setLoading(true);
       const data = await getSurahs();
       setSurahs(data);
+      if (typeof window !== "undefined") {
+        const saved = localStorage.getItem("quran_last_read_page");
+        if (saved) setLastReadPage(parseInt(saved));
+      }
       setLoading(false);
     }
     loadSurahs();
@@ -37,10 +42,23 @@ export default function QuranBrowserPage() {
   return (
     <div className="max-w-7xl mx-auto space-y-8 pb-20">
       <div className="space-y-4">
-        <div className="flex items-center gap-3 text-emerald-800 dark:text-emerald-300">
-          <BookOpen className="h-8 w-8" />
-          <h1 className="text-3xl md:text-4xl font-serif font-bold">The Holy Quran</h1>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3 text-emerald-800 dark:text-emerald-300">
+            <BookOpen className="h-8 w-8" />
+            <h1 className="text-3xl md:text-4xl font-serif font-bold">The Holy Quran</h1>
+          </div>
+
+          {lastReadPage && (
+            <Link
+              href={`/quran/page/${lastReadPage}`}
+              className="px-4 py-2 rounded-2xl bg-amber-500/20 text-amber-900 dark:text-amber-200 border border-amber-400/40 text-xs font-bold hover:bg-amber-500/30 transition flex items-center gap-2 shadow-xs"
+            >
+              <BookmarkCheck className="h-4 w-4 text-amber-600" />
+              <span>Continue Reading (Page {lastReadPage})</span>
+            </Link>
+          )}
         </div>
+
         <p className="text-muted-foreground text-sm max-w-2xl">
           Browse all 114 Surahs of the Glorious Quran with full Arabic text, transliteration, and authentic translations.
         </p>

@@ -29,7 +29,7 @@ export function Header() {
         </div>
       </Link>
 
-      <nav className="hidden md:flex items-center gap-6 text-xs font-semibold text-muted-foreground">
+      <nav className="hidden md:flex items-center gap-5 text-xs font-semibold text-muted-foreground">
         <Link href="/quran" className="hover:text-emerald-800 dark:hover:text-emerald-300 transition">
           {t.quran}
         </Link>
@@ -44,6 +44,12 @@ export function Header() {
         </Link>
         <Link href="/reciters" className="hover:text-emerald-800 dark:hover:text-emerald-300 transition">
           {t.reciters}
+        </Link>
+        <Link href="/adhkar" className="hover:text-emerald-800 dark:hover:text-emerald-300 transition">
+          {t.adhkar}
+        </Link>
+        <Link href="/quiz" className="hover:text-emerald-800 dark:hover:text-emerald-300 transition">
+          {t.quiz}
         </Link>
         <Link href="/prayer-times" className="hover:text-emerald-800 dark:hover:text-emerald-300 transition">
           {t.prayerTimes}
