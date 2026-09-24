@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Clock, MapPin, Navigation, Bell, Volume2 } from "lucide-react";
-import { Coordinates, CalculationMethod, PrayerTimes, SunnahTimes } from "adhan";
+import React, { useState, useEffect, useRef } from "react";
+import { Clock, MapPin, Navigation, Bell, Volume2, Globe, Shield } from "lucide-react";
+import { Coordinates, CalculationMethod, PrayerTimes } from "adhan";
 import { useSettings } from "@/providers/settings-provider";
+import { ADHAN_SOUNDS } from "@/lib/api/audio";
 
 export const CITIES = [
   { name: "Cairo", country: "Egypt", lat: 30.0444, lng: 31.2357, timezone: "Africa/Cairo" },
@@ -12,18 +13,13 @@ export const CITIES = [
   { name: "Madinah", country: "Saudi Arabia", lat: 24.5247, lng: 39.5692, timezone: "Asia/Riyadh" },
   { name: "Riyadh", country: "Saudi Arabia", lat: 24.7136, lng: 46.6753, timezone: "Asia/Riyadh" },
   { name: "Dubai", country: "UAE", lat: 25.2048, lng: 55.2708, timezone: "Asia/Dubai" },
-  { name: "Abu Dhabi", country: "UAE", lat: 24.4539, lng: 54.3773, timezone: "Asia/Dubai" },
   { name: "London", country: "United Kingdom", lat: 51.5074, lng: -0.1278, timezone: "Europe/London" },
   { name: "New York", country: "USA", lat: 40.7128, lng: -74.006, timezone: "America/New_York" },
   { name: "Istanbul", country: "Turkey", lat: 41.0082, lng: 28.9784, timezone: "Europe/Istanbul" },
-  { name: "Jakarta", country: "Indonesia", lat: -6.2088, lng: 106.8456, timezone: "Asia/Jakarta" },
-  { name: "Kuala Lumpur", country: "Malaysia", lat: 3.139, lng: 101.6869, timezone: "Asia/Kuala_Lumpur" },
-  { name: "Toronto", country: "Canada", lat: 43.6532, lng: -79.3832, timezone: "America/Toronto" },
-  { name: "Sydney", country: "Australia", lat: -33.8688, lng: 151.2093, timezone: "Australia/Sydney" },
 ];
 
 export default function PrayerTimesPage() {
-  const { settings, updateSettings, t } = useSettings();
+  const { t } = useSettings();
 
   const [selectedCity, setSelectedCity] = useState(CITIES[0]);
   const [coords, setCoords] = useState<Coordinates>(
@@ -32,6 +28,10 @@ export default function PrayerTimesPage() {
   const [usingGeo, setUsingGeo] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [notificationEnabled, setNotificationEnabled] = useState(false);
+  const [selectedAdhan, setSelectedAdhan] = useState(ADHAN_SOUNDS[0].id);
+  const [isPlayingAdhan, setIsPlayingAdhan] = useState(false);
+
+  const adhanAudioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -63,7 +63,7 @@ export default function PrayerTimesPage() {
         },
         (err) => {
           console.error("Location error:", err);
-          alert("Unable to get current location. Please choose a city manually.");
+          alert("Unable to detect location. Please choose a city manually.");
         }
       );
     }
@@ -81,7 +81,23 @@ export default function PrayerTimesPage() {
     }
   };
 
-  // Calculate prayer times
+  const handleTestAdhan = () => {
+    const soundObj = ADHAN_SOUNDS.find((s) => s.id === selectedAdhan) || ADHAN_SOUNDS[0];
+    if (!adhanAudioRef.current) {
+      adhanAudioRef.current = new Audio(soundObj.url);
+    } else {
+      adhanAudioRef.current.src = soundObj.url;
+    }
+
+    if (isPlayingAdhan) {
+      adhanAudioRef.current.pause();
+      setIsPlayingAdhan(false);
+    } else {
+      adhanAudioRef.current.play().then(() => setIsPlayingAdhan(true)).catch(console.error);
+      adhanAudioRef.current.onended = () => setIsPlayingAdhan(false);
+    }
+  };
+
   const date = new Date();
   const params = CalculationMethod.MuslimWorldLeague();
   const prayerTimes = new PrayerTimes(coords, date, params);
@@ -89,7 +105,6 @@ export default function PrayerTimesPage() {
   const nextPrayer = prayerTimes.nextPrayer();
   const nextPrayerTime = prayerTimes.timeForPrayer(nextPrayer);
 
-  // Time remaining format
   const getTimeRemaining = () => {
     if (!nextPrayerTime) return "00:00:00";
     const diff = nextPrayerTime.getTime() - currentTime.getTime();
@@ -135,7 +150,7 @@ export default function PrayerTimesPage() {
             }`}
           >
             <Bell className="h-3.5 w-3.5" />
-            <span>{notificationEnabled ? "Notifications On" : "Enable Notifications"}</span>
+            <span>{notificationEnabled ? t.notificationsOn : t.enableNotifications}</span>
           </button>
         </div>
 
@@ -149,6 +164,38 @@ export default function PrayerTimesPage() {
           <p className="text-xs text-emerald-100">
             {selectedCity.name}, {selectedCity.country} ({currentTime.toLocaleDateString()})
           </p>
+        </div>
+
+        {/* Real Location Metadata Panel */}
+        <div className="p-4 rounded-2xl bg-black/20 border border-white/10 space-y-2 text-xs">
+          <div className="flex items-center justify-between border-b border-white/10 pb-2">
+            <span className="font-bold text-amber-300 flex items-center gap-1.5">
+              <Globe className="h-3.5 w-3.5" />
+              <span>{t.yourLocation}</span>
+            </span>
+            <span className="text-emerald-200 font-mono">
+              {coords.latitude.toFixed(4)}°, {coords.longitude.toFixed(4)}°
+            </span>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-emerald-100">
+            <div>
+              <span className="block text-[10px] text-emerald-300 font-semibold">{t.country}</span>
+              <p className="font-bold truncate">{selectedCity.country}</p>
+            </div>
+            <div>
+              <span className="block text-[10px] text-emerald-300 font-semibold">{t.city}</span>
+              <p className="font-bold truncate">{selectedCity.name}</p>
+            </div>
+            <div>
+              <span className="block text-[10px] text-emerald-300 font-semibold">{t.timezone}</span>
+              <p className="font-bold truncate">{selectedCity.timezone}</p>
+            </div>
+            <div>
+              <span className="block text-[10px] text-emerald-300 font-semibold">{t.localTime}</span>
+              <p className="font-bold font-mono">{currentTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" })}</p>
+            </div>
+          </div>
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-white/10">
@@ -172,7 +219,37 @@ export default function PrayerTimesPage() {
             className="px-3 py-1.5 rounded-xl bg-emerald-800/80 hover:bg-emerald-700 text-xs font-semibold text-emerald-100 transition flex items-center gap-1.5"
           >
             <Navigation className="h-3.5 w-3.5" />
-            <span>Auto Detect Location</span>
+            <span>{t.autoDetect}</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Adhan Sound Picker & Test Button */}
+      <div className="p-6 rounded-3xl border border-emerald-900/10 bg-card space-y-4 shadow-xs">
+        <h2 className="text-base font-serif font-bold text-foreground flex items-center gap-2">
+          <Volume2 className="h-5 w-5 text-emerald-700" />
+          <span>{t.selectAdhan}</span>
+        </h2>
+
+        <div className="flex flex-col sm:flex-row items-center gap-3">
+          <select
+            value={selectedAdhan}
+            onChange={(e) => setSelectedAdhan(e.target.value)}
+            className="flex-1 w-full p-2.5 rounded-2xl border border-emerald-900/20 bg-background text-xs font-semibold focus:outline-none"
+          >
+            {ADHAN_SOUNDS.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.name}
+              </option>
+            ))}
+          </select>
+
+          <button
+            onClick={handleTestAdhan}
+            className="w-full sm:w-auto px-5 py-2.5 rounded-2xl bg-emerald-800 text-white font-bold text-xs hover:bg-emerald-700 transition shadow-xs flex items-center justify-center gap-2"
+          >
+            <Volume2 className="h-4 w-4" />
+            <span>{isPlayingAdhan ? t.playingAdhan : t.testAdhan}</span>
           </button>
         </div>
       </div>

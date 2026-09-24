@@ -3,11 +3,9 @@
 import React, { useState } from "react";
 import { QUIZ_QUESTIONS, QuizQuestion } from "@/lib/quiz";
 import { Award, CheckCircle2, XCircle, RotateCcw, ShieldCheck, ChevronRight } from "lucide-react";
-import { useSettings } from "@/providers/settings-provider";
 
 export default function QuizPage() {
-  const { t } = useSettings();
-  const [selectedLevel, setSelectedLevel] = useState<QuizQuestion["level"]>("beginner");
+  const [selectedLevel, setSelectedLevel] = useState<number>(1);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [score, setScore] = useState(0);
@@ -16,12 +14,9 @@ export default function QuizPage() {
   >([]);
   const [isFinished, setIsFinished] = useState(false);
 
-  const levels: { id: QuizQuestion["level"]; label: string }[] = [
-    { id: "beginner", label: "Level 1 — Beginner" },
-    { id: "easy", label: "Level 2 — Easy" },
-    { id: "intermediate", label: "Level 3 — Intermediate" },
-    { id: "advanced", label: "Level 4 — Advanced" },
-    { id: "expert", label: "Level 5 — Expert" },
+  const levels = [
+    { id: 1, label: "Level 1 — Fundamentals" },
+    { id: 2, label: "Level 2 — Quranic Knowledge" },
   ];
 
   const questions = QUIZ_QUESTIONS.filter((q) => q.level === selectedLevel);

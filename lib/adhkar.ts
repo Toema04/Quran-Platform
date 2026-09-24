@@ -1,6 +1,15 @@
 export type Dhikr = {
   id: string;
-  category: "morning" | "evening" | "after_prayer" | "sleeping" | "travel" | "protection";
+  category:
+    | "morning"
+    | "evening"
+    | "after_prayer"
+    | "sleeping"
+    | "waking_up"
+    | "eating"
+    | "mosque"
+    | "travel"
+    | "protection";
   arabicText: string;
   translation: string;
   transliteration?: string;
@@ -9,6 +18,7 @@ export type Dhikr = {
 };
 
 export const ADHKAR_DATA: Dhikr[] = [
+  // Morning
   {
     id: "m1",
     category: "morning",
@@ -33,14 +43,18 @@ export const ADHKAR_DATA: Dhikr[] = [
     repeatCount: 100,
     source: "Sahih Muslim, Hadith 2692",
   },
+
+  // Evening
   {
     id: "e1",
     category: "evening",
-    arabicText: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ وَالْحَمْدُ لِلَّهِ",
+    arabicText: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ وَالْحَمْدُ لِلَّهِ لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيكَ لَهُ",
     translation: "We have reached the evening and at this time all sovereignty belongs to Allah, Lord of the worlds.",
     repeatCount: 1,
     source: "Sahih Muslim, Hadith 2723",
   },
+
+  // After Prayer
   {
     id: "p1",
     category: "after_prayer",
@@ -57,6 +71,8 @@ export const ADHKAR_DATA: Dhikr[] = [
     repeatCount: 33,
     source: "Sahih Bukhari, Hadith 843",
   },
+
+  // Sleeping
   {
     id: "s1",
     category: "sleeping",
@@ -65,6 +81,46 @@ export const ADHKAR_DATA: Dhikr[] = [
     repeatCount: 1,
     source: "Sahih Bukhari, Hadith 6320",
   },
+
+  // Waking Up
+  {
+    id: "w1",
+    category: "waking_up",
+    arabicText: "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ",
+    translation: "All praise is for Allah Who gave us life after having taken it from us and unto Him is the resurrection.",
+    repeatCount: 1,
+    source: "Sahih Bukhari, Hadith 6312",
+  },
+
+  // Food & Drink
+  {
+    id: "f1",
+    category: "eating",
+    arabicText: "بِسْمِ اللَّهِ",
+    translation: "In the Name of Allah.",
+    repeatCount: 1,
+    source: "Sunan Abu Dawud, Hadith 3767",
+  },
+  {
+    id: "f2",
+    category: "eating",
+    arabicText: "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلاَ قُوَّةٍ",
+    translation: "All praise is for Allah Who fed me this and provided it for me without any power or strength from myself.",
+    repeatCount: 1,
+    source: "Sunan al-Tirmidhi, Hadith 3458",
+  },
+
+  // Mosque
+  {
+    id: "mq1",
+    category: "mosque",
+    arabicText: "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ",
+    translation: "O Allah, open the doors of Your mercy for me.",
+    repeatCount: 1,
+    source: "Sahih Muslim, Hadith 713",
+  },
+
+  // Travel
   {
     id: "t1",
     category: "travel",
@@ -73,6 +129,8 @@ export const ADHKAR_DATA: Dhikr[] = [
     repeatCount: 1,
     source: "Surah Az-Zukhruf 43:13-14 / Sahih Muslim 1342",
   },
+
+  // Protection
   {
     id: "pr1",
     category: "protection",

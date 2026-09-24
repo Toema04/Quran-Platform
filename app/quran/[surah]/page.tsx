@@ -17,7 +17,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Sliders,
-  Mic,
 } from "lucide-react";
 
 export default function SurahReaderPage({ params }: { params: Promise<{ surah: string }> }) {
@@ -248,7 +247,7 @@ export default function SurahReaderPage({ params }: { params: Promise<{ surah: s
                   </div>
                 </div>
 
-                <div className="py-6 text-right flex flex-wrap flex-row-reverse gap-x-2 gap-y-3 leading-widest" dir="rtl">
+                <div className="py-6 text-right flex flex-wrap gap-x-2 gap-y-3 leading-widest" dir="rtl">
                   {words.map((w, wIdx) => (
                     <span
                       key={wIdx}
@@ -260,9 +259,8 @@ export default function SurahReaderPage({ params }: { params: Promise<{ surah: s
                           wordIdx: wIdx,
                         })
                       }
-                      className="font-arabic font-bold text-emerald-950 dark:text-emerald-100 hover:text-emerald-600 hover:bg-emerald-800/10 dark:hover:bg-emerald-800/30 rounded-lg px-1 transition cursor-pointer inline-block"
+                      className="font-arabic font-bold text-emerald-950 dark:text-emerald-100 hover:text-emerald-600 hover:bg-emerald-800/10 rounded-lg px-1 transition cursor-pointer inline-block"
                       style={{ fontSize: `${settings.arabic_font_size || 28}px` }}
-                      title="Click word to practice pronunciation"
                     >
                       {w}
                     </span>

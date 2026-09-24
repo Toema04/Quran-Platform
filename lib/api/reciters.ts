@@ -61,4 +61,22 @@ export const RECITERS: Reciter[] = [
     arabicName: "سعود الشريم",
     style: "Murattal",
   },
+  {
+    id: "ar.yasserdossari",
+    name: "Yasser Al-Dosari",
+    arabicName: "ياسر الدوسري",
+    style: "Murattal",
+  },
+  {
+    id: "ar.islamsobhi",
+    name: "Islam Sobhi",
+    arabicName: "إسلام صبحي",
+    style: "Murattal",
+  },
+  {
+    id: "ar.abdullahmassad",
+    name: "Abdullah Al-Massad",
+    arabicName: "عبد الله المسعد",
+    style: "Murattal",
+  },
 ];
