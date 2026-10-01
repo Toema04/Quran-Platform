@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, use } from "react";
 import Link from "next/link";
-import { getSurah } from "@/lib/api/quran";
+import { SURAHS_METADATA } from "@/lib/api/quran";
 import { getAyahAudioUrl } from "@/lib/api/audio";
 import { getAyahTafsir } from "@/lib/api/tafsir";
 import { useAudio } from "@/providers/audio-provider";
@@ -17,6 +17,7 @@ import {
   ChevronLeft,
   ChevronRight,
   BookmarkCheck,
+  Search,
 } from "lucide-react";
 
 export default function MushafPageReader({
@@ -35,9 +36,9 @@ export default function MushafPageReader({
   const [selectedTafsir, setSelectedTafsir] = useState<{ surah: number; ayah: number; text: string; author: string } | null>(null);
   const [copiedAyah, setCopiedAyah] = useState<number | null>(null);
   const [practiceWord, setPracticeWord] = useState<{ word: string; surahNum: number; ayahNum: number; wordIdx: number } | null>(null);
+  const [jumpPageInput, setJumpPageInput] = useState("");
 
   useEffect(() => {
-    // Save last read page position in localStorage
     if (typeof window !== "undefined") {
       localStorage.setItem("quran_last_read_page", pageNum.toString());
     }
@@ -54,26 +55,32 @@ export default function MushafPageReader({
             const arabicData = json.data[0].ayahs;
             const translationData = json.data[1].ayahs;
 
-            const items = await Promise.all(
-              arabicData.map(async (item: { number: number; numberInSurah: number; juz: number; manzil: number; page: number; ruku: number; hizbQuarter: number; sajda: boolean | object; text: string; surah: { number: number } }, idx: number) => {
-                const s = await getSurah(item.surah.number);
-                return {
-                  surah: s,
-                  ayah: {
-                    number: item.number,
-                    numberInSurah: item.numberInSurah,
-                    juz: item.juz,
-                    manzil: item.manzil,
-                    page: item.page,
-                    ruku: item.ruku,
-                    hizbQuarter: item.hizbQuarter,
-                    sajda: item.sajda,
-                    text: item.text,
-                    translation: translationData[idx] ? translationData[idx].text : "",
-                  },
-                };
-              })
-            );
+            const items = arabicData.map((item: { number: number; numberInSurah: number; juz: number; manzil: number; page: number; ruku: number; hizbQuarter: number; sajda: boolean | object; text: string; surah: { number: number; englishName: string; name: string; englishNameTranslation: string; numberOfAyahs: number; revelationType: string } }, idx: number) => {
+              const matchedSurah = SURAHS_METADATA[item.surah.number - 1] || {
+                number: item.surah.number,
+                name: item.surah.name,
+                englishName: item.surah.englishName,
+                englishNameTranslation: item.surah.englishNameTranslation || "",
+                numberOfAyahs: item.surah.numberOfAyahs || 0,
+                revelationType: item.surah.revelationType || "Meccan",
+              };
+
+              return {
+                surah: matchedSurah,
+                ayah: {
+                  number: item.number,
+                  numberInSurah: item.numberInSurah,
+                  juz: item.juz,
+                  manzil: item.manzil,
+                  page: item.page,
+                  ruku: item.ruku,
+                  hizbQuarter: item.hizbQuarter,
+                  sajda: item.sajda,
+                  text: item.text,
+                  translation: translationData[idx] ? translationData[idx].text : "",
+                },
+              };
+            });
             setPageAyahs(items);
           }
         }
@@ -84,6 +91,14 @@ export default function MushafPageReader({
     }
     loadPageData();
   }, [pageNum]);
+
+  const handleJumpPage = (e: React.FormEvent) => {
+    e.preventDefault();
+    const p = parseInt(jumpPageInput);
+    if (p >= 1 && p <= 604) {
+      window.location.href = `/quran/page/${p}`;
+    }
+  };
 
   const handlePlayAyah = (surahNum: number, ayah: Ayah, surahName: string) => {
     const isThisPlaying =
@@ -98,7 +113,7 @@ export default function MushafPageReader({
         surahNumber: surahNum,
         ayahNumber: ayah.numberInSurah,
         surahName: surahName,
-        audioUrl: getAyahAudioUrl(surahNum, ayah.numberInSurah),
+        audioUrl: getAyahAudioUrl(surahNum, ayah.numberInSurah, settings.reciter_id),
       });
     }
   };
@@ -142,15 +157,15 @@ export default function MushafPageReader({
             className="flex items-center gap-1 hover:text-white transition"
           >
             <ChevronLeft className="h-4 w-4" />
-            <span>{pageNum > 1 ? `Page ${pageNum - 1}` : "Quran"}</span>
+            <span>{pageNum > 1 ? `${t.previous} (${t.page} ${pageNum - 1})` : t.quran}</span>
           </Link>
 
           <div className="flex items-center gap-2">
             <span className="font-semibold uppercase tracking-widest text-[11px] bg-emerald-700/50 px-3 py-1 rounded-full">
-              Mushaf Page {pageNum} of 604
+              {t.page} {pageNum} / 604
             </span>
             <span className="flex items-center gap-1 text-[10px] bg-amber-500/20 text-amber-300 border border-amber-400/30 px-2.5 py-1 rounded-full font-bold">
-              <BookmarkCheck className="h-3 w-3" /> Saved Position
+              <BookmarkCheck className="h-3 w-3" /> {t.lastRead}
             </span>
           </div>
 
@@ -158,14 +173,33 @@ export default function MushafPageReader({
             href={pageNum < 604 ? `/quran/page/${pageNum + 1}` : "/quran"}
             className="flex items-center gap-1 hover:text-white transition"
           >
-            <span>{pageNum < 604 ? `Page ${pageNum + 1}` : "Quran"}</span>
+            <span>{pageNum < 604 ? `${t.next} (${t.page} ${pageNum + 1})` : t.quran}</span>
             <ChevronRight className="h-4 w-4" />
           </Link>
         </div>
 
         <h1 className="text-3xl md:text-4xl font-serif font-bold text-white">
-          Mushaf Page {pageNum}
+          {t.page} {pageNum}
         </h1>
+
+        <form onSubmit={handleJumpPage} className="flex items-center justify-center gap-2 pt-2">
+          <input
+            type="number"
+            min="1"
+            max="604"
+            placeholder={t.goToPage}
+            value={jumpPageInput}
+            onChange={(e) => setJumpPageInput(e.target.value)}
+            className="w-28 px-3 py-1.5 rounded-xl bg-emerald-950/60 border border-emerald-700/50 text-white text-xs text-center focus:outline-none focus:ring-2 focus:ring-emerald-400"
+          />
+          <button
+            type="submit"
+            className="px-3.5 py-1.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-xs font-semibold text-white transition flex items-center gap-1"
+          >
+            <Search className="h-3.5 w-3.5" />
+            <span>{t.goToPage}</span>
+          </button>
+        </form>
       </div>
 
       <div className="space-y-6">
@@ -224,7 +258,7 @@ export default function MushafPageReader({
                 </div>
               </div>
 
-              <div className="py-6 text-right flex flex-wrap flex-row-reverse gap-x-2 gap-y-3 leading-widest" dir="rtl">
+              <div className="py-6 text-right flex flex-wrap gap-x-2 gap-y-3 leading-widest" dir="rtl">
                 {words.map((w, wIdx) => (
                   <span
                     key={wIdx}

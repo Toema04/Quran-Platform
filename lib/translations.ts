@@ -2,7 +2,7 @@ export type Language = "en" | "ar";
 
 export const translations = {
   en: {
-    // Nav
+    // Nav & Brand
     brand: "Quran Platform",
     subBrand: "القرآن الكريم",
     home: "Home",
@@ -42,7 +42,7 @@ export const translations = {
     classicalTafsir: "Classical Tafsir",
     copyright: "All Quranic data sourced from verified authentic endpoints.",
 
-    // General
+    // General Controls
     language: "Language",
     english: "English",
     arabic: "العربية",
@@ -59,17 +59,30 @@ export const translations = {
     error: "An error occurred. Please try again.",
     retry: "Retry",
     noResults: "No results found.",
+    next: "Next",
+    previous: "Previous",
+    page: "Page",
+    goToPage: "Go to Page",
+    continueReading: "Continue Reading",
+    lastRead: "Last Read",
+    verses: "Verses",
+    makki: "Makki",
+    madani: "Madani",
+    mode: "Reading Mode",
+    mushafMode: "Mushaf Page Mode",
+    continuousMode: "Continuous Mode",
 
-    // Adhkar Categories
+    // Adhkar
     morning: "Morning Adhkar",
     evening: "Evening Adhkar",
     after_prayer: "After Prayer",
     sleeping: "Before Sleeping",
     waking_up: "After Waking Up",
     eating: "Food & Drink",
-    mosque: "Mosque",
+    mosque: "Mosque & Prayer",
     travel: "Travel",
     protection: "Protection & Ruqyah",
+    prophetic_duas: "Prophetic Duas",
     repeatCount: "Repeat Count",
     completed: "Completed",
     count: "Count",
@@ -87,7 +100,7 @@ export const translations = {
     correct: "Correct",
     incorrect: "Incorrect",
 
-    // Prayer Location & Adhan
+    // Prayer & Location
     yourLocation: "Your Location",
     country: "Country",
     city: "City",
@@ -103,7 +116,7 @@ export const translations = {
     playingAdhan: "Playing Adhan...",
   },
   ar: {
-    // Nav
+    // Nav & Brand
     brand: "منصة القرآن الكريم",
     subBrand: "القرآن الكريم",
     home: "الرئيسية",
@@ -143,7 +156,7 @@ export const translations = {
     classicalTafsir: "التفاسير المعتمدة",
     copyright: "جميع البيانات القرآنية مستمدة من مصادر معتمدة وموثوقة.",
 
-    // General
+    // General Controls
     language: "اللغة",
     english: "English",
     arabic: "العربية",
@@ -160,17 +173,30 @@ export const translations = {
     error: "حدث خطأ. يرجى المحاولة مرة أخرى.",
     retry: "إعادة المحاولة",
     noResults: "لم يتم العثور على نتائج.",
+    next: "التالي",
+    previous: "السابق",
+    page: "صفحة",
+    goToPage: "انتقل للصفحة",
+    continueReading: "متابعة القراءة",
+    lastRead: "آخر قراءة",
+    verses: "آيات",
+    makki: "مكية",
+    madani: "مدنية",
+    mode: "نمط القراءة",
+    mushafMode: "نمط صفحة المصحف",
+    continuousMode: "النمط المستمر",
 
-    // Adhkar Categories
+    // Adhkar
     morning: "أذكار الصباح",
     evening: "أذكار المساء",
     after_prayer: "أذكار بعد الصلاة",
     sleeping: "أذكار النوم",
     waking_up: "أذكار الاستيقاظ",
     eating: "الطعام والشراب",
-    mosque: "أذكار المسجد",
+    mosque: "أذكار المسجد والصلوات",
     travel: "أدعية السفر",
     protection: "أدعية الحفظ والرقية",
+    prophetic_duas: "أدعية نبوية ثابته",
     repeatCount: "عدد التكرار",
     completed: "تم الإنهاء",
     count: "عُدّ",
@@ -188,7 +214,7 @@ export const translations = {
     correct: "إجابة صحيحة",
     incorrect: "إجابة خاطئة",
 
-    // Prayer Location & Adhan
+    // Prayer & Location
     yourLocation: "موقعك الحالي",
     country: "الدولة",
     city: "المدينة",

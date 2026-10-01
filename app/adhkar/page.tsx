@@ -10,13 +10,17 @@ export default function AdhkarPage() {
   const [activeCategory, setActiveCategory] = useState<Dhikr["category"]>("morning");
   const [counters, setCounters] = useState<{ [id: string]: number }>({});
 
-  const categories: { id: Dhikr["category"]; label: string; arabicLabel: string }[] = [
-    { id: "morning", label: "Morning Adhkar", arabicLabel: "أذكار الصباح" },
-    { id: "evening", label: "Evening Adhkar", arabicLabel: "أذكار المساء" },
-    { id: "after_prayer", label: "After Prayer", arabicLabel: "أذكار بعد الصلاة" },
-    { id: "sleeping", label: "Before Sleeping", arabicLabel: "أذكار النوم" },
-    { id: "travel", label: "Travel Dua", arabicLabel: "دعاء السفر" },
-    { id: "protection", label: "Protection", arabicLabel: "أدعية الحفظ" },
+  const categories: { id: Dhikr["category"]; labelKey: keyof typeof t }[] = [
+    { id: "morning", labelKey: "morning" },
+    { id: "evening", labelKey: "evening" },
+    { id: "after_prayer", labelKey: "after_prayer" },
+    { id: "sleeping", labelKey: "sleeping" },
+    { id: "waking_up", labelKey: "waking_up" },
+    { id: "eating", labelKey: "eating" },
+    { id: "mosque", labelKey: "mosque" },
+    { id: "travel", labelKey: "travel" },
+    { id: "protection", labelKey: "protection" },
+    { id: "prophetic_duas", labelKey: "prophetic_duas" },
   ];
 
   const handleIncrement = (item: Dhikr) => {
@@ -37,10 +41,10 @@ export default function AdhkarPage() {
       <div className="space-y-4">
         <div className="flex items-center gap-3 text-emerald-800 dark:text-emerald-300">
           <BookOpen className="h-8 w-8" />
-          <h1 className="text-3xl md:text-4xl font-serif font-bold">Adhkar & Supplications</h1>
+          <h1 className="text-3xl md:text-4xl font-serif font-bold">{t.adhkar}</h1>
         </div>
         <p className="text-muted-foreground text-sm max-w-2xl">
-          Authentic Islamic morning, evening, and daily supplications with repetition counters and verified sources.
+          Authentic Islamic morning, evening, daily supplications, and Prophetic Duas with repetition counters and verified sources.
         </p>
 
         <div className="flex flex-wrap items-center gap-2 pt-2">
@@ -54,7 +58,7 @@ export default function AdhkarPage() {
                   : "bg-card border-emerald-900/10 text-muted-foreground hover:text-foreground"
               }`}
             >
-              <span>{cat.label}</span>
+              <span>{t[cat.labelKey] as string}</span>
             </button>
           ))}
         </div>
@@ -82,12 +86,12 @@ export default function AdhkarPage() {
 
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-bold text-muted-foreground">
-                    Repeat: {item.repeatCount}x
+                    {t.repeatCount}: {item.repeatCount}x
                   </span>
                   <button
                     onClick={() => handleReset(item.id)}
                     className="p-1 rounded hover:bg-emerald-900/10 text-muted-foreground"
-                    title="Reset Counter"
+                    title={t.reset}
                   >
                     <RotateCcw className="h-3.5 w-3.5" />
                   </button>
@@ -108,11 +112,11 @@ export default function AdhkarPage() {
                 {isCompleted ? (
                   <div className="flex items-center gap-2 text-xs font-bold text-emerald-600">
                     <CheckCircle2 className="h-4 w-4" />
-                    <span>Completed</span>
+                    <span>{t.completed}</span>
                   </div>
                 ) : (
                   <span className="text-xs font-semibold text-muted-foreground">
-                    Progress: {count} / {item.repeatCount}
+                    {count} / {item.repeatCount}
                   </span>
                 )}
 
@@ -125,7 +129,7 @@ export default function AdhkarPage() {
                       : "bg-emerald-800 text-white hover:bg-emerald-700"
                   }`}
                 >
-                  {isCompleted ? "Done" : `Count (${count}/${item.repeatCount})`}
+                  {isCompleted ? t.completed : `${t.count} (${count}/${item.repeatCount})`}
                 </button>
               </div>
             </div>

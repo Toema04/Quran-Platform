@@ -9,7 +9,8 @@ export type Dhikr = {
     | "eating"
     | "mosque"
     | "travel"
-    | "protection";
+    | "protection"
+    | "prophetic_duas";
   arabicText: string;
   translation: string;
   transliteration?: string;
@@ -138,5 +139,23 @@ export const ADHKAR_DATA: Dhikr[] = [
     translation: "In the Name of Allah with Whose Name nothing can cause harm in the earth nor in the heaven, and He is the All-Hearing, the All-Knowing.",
     repeatCount: 3,
     source: "Sunan Abu Dawud, Hadith 5088",
+  },
+
+  // Prophetic Duas
+  {
+    id: "pd1",
+    category: "prophetic_duas",
+    arabicText: "اللَّهُمَّ رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
+    translation: "O Allah, our Lord! Give us in this world that which is good and in the Hereafter that which is good, and save us from the torment of the Fire.",
+    repeatCount: 1,
+    source: "Sahih Bukhari, Hadith 4522",
+  },
+  {
+    id: "pd2",
+    category: "prophetic_duas",
+    arabicText: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى",
+    translation: "O Allah, I ask You for guidance, piety, chastity and self-sufficiency.",
+    repeatCount: 1,
+    source: "Sahih Muslim, Hadith 2721",
   },
 ];

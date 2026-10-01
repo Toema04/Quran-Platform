@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Clock, MapPin, Navigation, Bell, Volume2, Globe, Shield } from "lucide-react";
+import { Clock, MapPin, Navigation, Bell, Volume2, Globe } from "lucide-react";
 import { Coordinates, CalculationMethod, PrayerTimes } from "adhan";
 import { useSettings } from "@/providers/settings-provider";
 import { ADHAN_SOUNDS } from "@/lib/api/audio";
@@ -93,7 +93,10 @@ export default function PrayerTimesPage() {
       adhanAudioRef.current.pause();
       setIsPlayingAdhan(false);
     } else {
-      adhanAudioRef.current.play().then(() => setIsPlayingAdhan(true)).catch(console.error);
+      adhanAudioRef.current.play().then(() => setIsPlayingAdhan(true)).catch((e) => {
+        console.error("Adhan play error:", e);
+        setIsPlayingAdhan(false);
+      });
       adhanAudioRef.current.onended = () => setIsPlayingAdhan(false);
     }
   };
