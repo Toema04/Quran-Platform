@@ -23,8 +23,8 @@ export const ADHKAR_DATA: Dhikr[] = [
   {
     id: "m1",
     category: "morning",
-    arabicText: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيكَ لَهُ",
-    translation: "We have reached the morning and at this very time all sovereignty belongs to Allah, Lord of the worlds. Praise is to Allah.",
+    arabicText: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لاَ إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لاَ شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",
+    translation: "We have reached the morning and at this very time all sovereignty belongs to Allah, Lord of the worlds. Praise is to Allah. None has the right to be worshipped except Allah alone, without partner.",
     repeatCount: 1,
     source: "Sahih Muslim, Hadith 2723",
   },
@@ -44,6 +44,14 @@ export const ADHKAR_DATA: Dhikr[] = [
     repeatCount: 100,
     source: "Sahih Muslim, Hadith 2692",
   },
+  {
+    id: "m4",
+    category: "morning",
+    arabicText: "اللَّهُمَّ أَنْتَ رَبِّي لاَ إِلَهَ إِلاَّ أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ",
+    translation: "O Allah, You are my Lord, none has the right to be worshipped except You. You created me and I am Your servant, and I abide by Your covenant and promise as best I can.",
+    repeatCount: 1,
+    source: "Sahih Bukhari, Hadith 6306",
+  },
 
   // Evening
   {
@@ -53,6 +61,14 @@ export const ADHKAR_DATA: Dhikr[] = [
     translation: "We have reached the evening and at this time all sovereignty belongs to Allah, Lord of the worlds.",
     repeatCount: 1,
     source: "Sahih Muslim, Hadith 2723",
+  },
+  {
+    id: "e2",
+    category: "evening",
+    arabicText: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ",
+    translation: "I seek refuge in the perfect words of Allah from the evil of what He has created.",
+    repeatCount: 3,
+    source: "Sahih Muslim, Hadith 2708",
   },
 
   // After Prayer
@@ -77,8 +93,8 @@ export const ADHKAR_DATA: Dhikr[] = [
   {
     id: "s1",
     category: "sleeping",
-    arabicText: "بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي، وَبِكَ أَرْفَعُهُ",
-    translation: "In Your name my Lord, I lie down and in Your name I rise.",
+    arabicText: "بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي، وَبِكَ أَرْفَعُهُ، إِنْ أَمْسَكْتَ نَفْسِي فَارْحَمْهَا، وَإِنْ أَرْسَلْتَهَا فَاحْفَظْهَا",
+    translation: "In Your name my Lord, I lie down and in Your name I rise. If You take my soul, have mercy upon it, and if You return it, protect it.",
     repeatCount: 1,
     source: "Sahih Bukhari, Hadith 6320",
   },
@@ -120,6 +136,14 @@ export const ADHKAR_DATA: Dhikr[] = [
     repeatCount: 1,
     source: "Sahih Muslim, Hadith 713",
   },
+  {
+    id: "mq2",
+    category: "mosque",
+    arabicText: "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ",
+    translation: "O Allah, I ask You of Your favor.",
+    repeatCount: 1,
+    source: "Sahih Muslim, Hadith 713",
+  },
 
   // Travel
   {
@@ -157,5 +181,13 @@ export const ADHKAR_DATA: Dhikr[] = [
     translation: "O Allah, I ask You for guidance, piety, chastity and self-sufficiency.",
     repeatCount: 1,
     source: "Sahih Muslim, Hadith 2721",
+  },
+  {
+    id: "pd3",
+    category: "prophetic_duas",
+    arabicText: "يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ",
+    translation: "O Turner of the hearts, make my heart firm upon Your religion.",
+    repeatCount: 1,
+    source: "Sunan al-Tirmidhi, Hadith 3522",
   },
 ];

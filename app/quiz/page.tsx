@@ -3,8 +3,10 @@
 import React, { useState } from "react";
 import { QUIZ_QUESTIONS, QuizQuestion } from "@/lib/quiz";
 import { Award, CheckCircle2, XCircle, RotateCcw, ShieldCheck, ChevronRight } from "lucide-react";
+import { useSettings } from "@/providers/settings-provider";
 
 export default function QuizPage() {
+  const { t } = useSettings();
   const [selectedLevel, setSelectedLevel] = useState<number>(1);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
@@ -17,6 +19,9 @@ export default function QuizPage() {
   const levels = [
     { id: 1, label: "Level 1 — Fundamentals" },
     { id: 2, label: "Level 2 — Quranic Knowledge" },
+    { id: 3, label: "Level 3 — Prophets & Messengers" },
+    { id: 4, label: "Level 4 — Seerah & History" },
+    { id: 5, label: "Level 5 — Fiqh & Hadith" },
   ];
 
   const questions = QUIZ_QUESTIONS.filter((q) => q.level === selectedLevel);
@@ -59,10 +64,10 @@ export default function QuizPage() {
           <span>Interactive Learning</span>
         </div>
         <h1 className="text-3xl md:text-4xl font-serif font-bold text-foreground">
-          Islamic Knowledge Quiz
+          {t.quizTitle}
         </h1>
         <p className="text-muted-foreground text-sm max-w-xl mx-auto">
-          Test and expand your understanding of the Quran, Seerah, Prophets, and Islamic history with verified references.
+          {t.quizSubtitle}
         </p>
 
         <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
@@ -89,9 +94,9 @@ export default function QuizPage() {
         <div className="p-8 rounded-3xl border border-emerald-900/10 bg-card space-y-6 shadow-xs">
           <div className="flex items-center justify-between border-b pb-4 text-xs font-semibold text-muted-foreground">
             <span>
-              Question {currentIndex + 1} of {questions.length}
+              {t.question} {currentIndex + 1} / {questions.length}
             </span>
-            <span>Score: {score}</span>
+            <span>{t.score}: {score}</span>
           </div>
 
           <h2 className="text-xl font-serif font-bold text-foreground leading-snug">
@@ -131,7 +136,7 @@ export default function QuizPage() {
             <div className="p-4 rounded-2xl bg-emerald-900/5 border border-emerald-900/10 space-y-2 text-xs">
               <div className="flex items-center gap-1.5 font-bold text-emerald-800 dark:text-emerald-300">
                 <ShieldCheck className="h-4 w-4" />
-                <span>Verified Source: {currentQuestion.source}</span>
+                <span>{t.verifiedSource}: {currentQuestion.source}</span>
               </div>
               <p className="text-muted-foreground leading-relaxed">{currentQuestion.explanation}</p>
 
@@ -139,7 +144,7 @@ export default function QuizPage() {
                 onClick={handleNextQuestion}
                 className="mt-2 w-full py-2.5 rounded-xl bg-emerald-800 text-white font-bold hover:bg-emerald-700 transition flex items-center justify-center gap-1 shadow-xs"
               >
-                <span>Next Question</span>
+                <span>{t.nextQuestion}</span>
                 <ChevronRight className="h-4 w-4" />
               </button>
             </div>
@@ -149,23 +154,23 @@ export default function QuizPage() {
         <div className="p-8 rounded-3xl border border-emerald-900/10 bg-card space-y-6 shadow-xs text-center">
           <Award className="h-12 w-12 text-amber-500 mx-auto" />
           <div className="space-y-1">
-            <h2 className="text-2xl font-serif font-bold text-foreground">Quiz Completed!</h2>
+            <h2 className="text-2xl font-serif font-bold text-foreground">{t.completed}</h2>
             <p className="text-sm text-muted-foreground">
-              You scored <strong className="text-emerald-800 dark:text-emerald-300">{score}</strong> out of{" "}
+              {t.score}: <strong className="text-emerald-800 dark:text-emerald-300">{score}</strong> /{" "}
               {questions.length}
             </p>
           </div>
 
           <div className="space-y-4 text-left border-t pt-4">
-            <h3 className="font-serif font-bold text-base text-foreground">Answer Review</h3>
+            <h3 className="font-serif font-bold text-base text-foreground">{t.reviewAnswers}</h3>
             {answersHistory.map((item, idx) => (
               <div key={idx} className="p-4 rounded-2xl bg-emerald-900/5 space-y-1 text-xs">
                 <div className="flex items-center justify-between font-bold">
                   <span>{item.question.question}</span>
                   {item.isCorrect ? (
-                    <span className="text-emerald-600">Correct</span>
+                    <span className="text-emerald-600">{t.correct}</span>
                   ) : (
-                    <span className="text-red-600">Incorrect</span>
+                    <span className="text-red-600">{t.incorrect}</span>
                   )}
                 </div>
                 <p className="text-muted-foreground">
@@ -181,7 +186,7 @@ export default function QuizPage() {
             className="px-6 py-3 rounded-2xl bg-emerald-800 text-white font-bold text-sm hover:bg-emerald-700 transition shadow-md inline-flex items-center gap-2"
           >
             <RotateCcw className="h-4 w-4" />
-            <span>Try Again</span>
+            <span>{t.tryAgain}</span>
           </button>
         </div>
       )}

@@ -23,6 +23,20 @@ export const translations = {
     adhkar: "Adhkar & Duas",
     quiz: "Islamic Quiz",
 
+    // Home Page
+    heroTitle: "Read. Listen. Reflect.",
+    heroSubtitle: "Experience the Holy Quran with crystal-clear audio recitations, verified classical Tafsir, verse search, bookmark synchronization, prayer schedules, and Ramadan companion mode.",
+    startReading: "Start Reading",
+    listenRecitations: "Listen Recitations",
+    verseOfTheDay: "Verse of the Day",
+    readVerseTafsir: "Read Verse Tafsir",
+    popularSurahs: "Popular Surahs",
+    viewAll114: "View All 114 Surahs",
+    verseSearchTitle: "Verse Search",
+    prayerTimesTitle: "Prayer Times",
+    qiblaCompassTitle: "Qibla Compass",
+    ramadanHubTitle: "Ramadan Hub",
+
     // Header & Mobile
     searchPlaceholder: "Search Quran, Surahs, translations...",
 
@@ -64,7 +78,7 @@ export const translations = {
     page: "Page",
     goToPage: "Go to Page",
     continueReading: "Continue Reading",
-    lastRead: "Last Read",
+    lastRead: "Last Read Position",
     verses: "Verses",
     makki: "Makki",
     madani: "Madani",
@@ -114,6 +128,33 @@ export const translations = {
     selectAdhan: "Select Adhan Sound",
     testAdhan: "Test Adhan",
     playingAdhan: "Playing Adhan...",
+
+    // Dashboard & Profile
+    welcomeDashboard: "Welcome to your Quran Dashboard",
+    personalCompanion: "Personal Companion",
+    dashboardSubtitle: "Track your recitation progress, review your active bookmarks, manage your favorite Qaris, and maintain your daily Quran streak.",
+    surahsRead: "Surahs Read",
+    bookmarksSaved: "Bookmarks Saved",
+    readingStreak: "Reading Streak",
+    favoriteReciter: "Favorite Reciter",
+    viewAll: "View All",
+    welcomeUser: "Quran Companion User",
+    syncStatus: "Sync Status",
+    localPersistence: "Local Persistence",
+    manageSettings: "Manage Settings",
+
+    // Auth
+    welcomeBack: "Welcome Back",
+    signInSubtitle: "Sign in to sync your bookmarks, favorites, and reading streak.",
+    createAccount: "Create Account",
+    registerSubtitle: "Join the platform to track your Quran journey.",
+    email: "Email",
+    password: "Password",
+    fullName: "Full Name",
+    signIn: "Sign In",
+    noAccount: "Don't have an account?",
+    register: "Register",
+    alreadyAccount: "Already have an account?",
   },
   ar: {
     // Nav & Brand
@@ -136,6 +177,20 @@ export const translations = {
     hizb: "الأحزاب",
     adhkar: "الأذكار والأدعية",
     quiz: "مسابقة معارف إسلامية",
+
+    // Home Page
+    heroTitle: "اقرأ. استمع. تدبر.",
+    heroSubtitle: "عِش مع القرآن الكريم بتلاوات خاشعة، وتفاسير معتمدة، وبحث مباشر، وفواصل القراءة، ومواقيت الصلاة ومرافق رمضان.",
+    startReading: "ابدأ القراءة",
+    listenRecitations: "استمع للتلاوات",
+    verseOfTheDay: "آية اليوم",
+    readVerseTafsir: "اقرأ تفسير الآية",
+    popularSurahs: "السور الشائعة",
+    viewAll114: "عرض جميع السور (١١٤)",
+    verseSearchTitle: "البحث في الآيات",
+    prayerTimesTitle: "مواقيت الصلاة",
+    qiblaCompassTitle: "اتجاه القبلة",
+    ramadanHubTitle: "مركز رمضان",
 
     // Header & Mobile
     searchPlaceholder: "ابحث في القرآن، السور، التفاسير...",
@@ -178,7 +233,7 @@ export const translations = {
     page: "صفحة",
     goToPage: "انتقل للصفحة",
     continueReading: "متابعة القراءة",
-    lastRead: "آخر قراءة",
+    lastRead: "موقع آخر قراءة",
     verses: "آيات",
     makki: "مكية",
     madani: "مدنية",
@@ -228,6 +283,33 @@ export const translations = {
     selectAdhan: "اختر صوت الأذان",
     testAdhan: "تجربة الأذان",
     playingAdhan: "جاري تشغيل الأذان...",
+
+    // Dashboard & Profile
+    welcomeDashboard: "مرحباً بك في لوحة تحكم القرآن الكريم",
+    personalCompanion: "مرافقك الشخصي",
+    dashboardSubtitle: "تابع تقدمك في التلاوة، وراجع الفواصل المفعلة، وادر القراء المفصلين لديك، وحافظ على وردك اليومي.",
+    surahsRead: "السور المقروءة",
+    bookmarksSaved: "الفواصل المحفوظة",
+    readingStreak: "سلسلة القراءة",
+    favoriteReciter: "القارئ المفضّل",
+    viewAll: "عرض الكل",
+    welcomeUser: "مستخدم منصة القرآن الكريم",
+    syncStatus: "حالة المزامنة",
+    localPersistence: "الحفظ المحلي",
+    manageSettings: "إدارة الإعدادات",
+
+    // Auth
+    welcomeBack: "مرحباً بعودتك",
+    signInSubtitle: "سجّل الدخول لمزامنة الفواصل والمفضلة وسلسلة القراءة.",
+    createAccount: "إنشاء حساب جديد",
+    registerSubtitle: "انضم للمنصة لمتابعة رحلتك مع القرآن الكريم.",
+    email: "البريد الإلكتروني",
+    password: "كلمة المرور",
+    fullName: "الاسم الكامل",
+    signIn: "تسجيل الدخول",
+    noAccount: "ليس لديك حساب؟",
+    register: "إنشاء حساب",
+    alreadyAccount: "لديك حساب بالفعل؟",
   },
 };
 

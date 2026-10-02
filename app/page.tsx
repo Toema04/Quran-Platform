@@ -3,8 +3,11 @@
 import React from "react";
 import Link from "next/link";
 import { BookOpen, Headphones, Search, Clock, Compass, Sparkles, ChevronRight, Moon } from "lucide-react";
+import { useSettings } from "@/providers/settings-provider";
 
 export default function HomePage() {
+  const { t } = useSettings();
+
   const popularSurahs = [
     { number: 1, name: "Al-Fatihah", arabic: "الفاتحة", verses: 7 },
     { number: 2, name: "Al-Baqarah", arabic: "البقرة", verses: 286 },
@@ -23,11 +26,11 @@ export default function HomePage() {
         </div>
 
         <h1 className="text-4xl md:text-6xl font-serif font-bold tracking-tight text-white leading-tight">
-          Read. Listen. Reflect.
+          {t.heroTitle}
         </h1>
 
         <p className="text-emerald-100 text-sm md:text-base max-w-2xl leading-relaxed">
-          Experience the Holy Quran with crystal-clear audio recitations, verified classical Tafsir, verse search, bookmark synchronization, prayer schedules, and Ramadan companion mode.
+          {t.heroSubtitle}
         </p>
 
         <div className="flex flex-wrap items-center gap-4 pt-2">
@@ -36,7 +39,7 @@ export default function HomePage() {
             className="px-6 py-3 rounded-2xl bg-white text-emerald-950 font-bold text-sm hover:bg-emerald-50 transition shadow-md flex items-center gap-2"
           >
             <BookOpen className="h-4 w-4" />
-            <span>Start Reading</span>
+            <span>{t.startReading}</span>
           </Link>
 
           <Link
@@ -44,7 +47,7 @@ export default function HomePage() {
             className="px-6 py-3 rounded-2xl bg-emerald-800/80 hover:bg-emerald-800 border border-emerald-700/50 text-white font-semibold text-sm transition flex items-center gap-2"
           >
             <Headphones className="h-4 w-4" />
-            <span>Listen Recitations</span>
+            <span>{t.listenRecitations}</span>
           </Link>
         </div>
       </section>
@@ -53,7 +56,7 @@ export default function HomePage() {
         <div className="flex items-center justify-between border-b border-emerald-900/10 pb-4">
           <div className="flex items-center gap-2">
             <span className="h-2 w-2 rounded-full bg-emerald-700" />
-            <h2 className="font-serif font-bold text-lg text-foreground">Verse of the Day</h2>
+            <h2 className="font-serif font-bold text-lg text-foreground">{t.verseOfTheDay}</h2>
           </div>
           <span className="text-xs font-semibold text-emerald-800 dark:text-emerald-300">Surah Al-Baqarah (2:255)</span>
         </div>
@@ -73,7 +76,7 @@ export default function HomePage() {
             href="/quran/2/255"
             className="text-xs font-bold text-emerald-800 dark:text-emerald-300 hover:underline flex items-center gap-1"
           >
-            <span>Read Verse Tafsir</span>
+            <span>{t.readVerseTafsir}</span>
             <ChevronRight className="h-3.5 w-3.5" />
           </Link>
         </div>
@@ -81,9 +84,9 @@ export default function HomePage() {
 
       <section className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="font-serif font-bold text-2xl text-foreground">Popular Surahs</h2>
+          <h2 className="font-serif font-bold text-2xl text-foreground">{t.popularSurahs}</h2>
           <Link href="/quran" className="text-xs font-bold text-emerald-800 dark:text-emerald-300 hover:underline flex items-center gap-1">
-            <span>View All 114</span>
+            <span>{t.viewAll114}</span>
             <ChevronRight className="h-3.5 w-3.5" />
           </Link>
         </div>
@@ -101,7 +104,7 @@ export default function HomePage() {
                 </span>
                 <div>
                   <h3 className="font-serif font-bold text-base text-foreground">{s.name}</h3>
-                  <p className="text-xs text-muted-foreground">{s.verses} Verses</p>
+                  <p className="text-xs text-muted-foreground">{s.verses} {t.verses}</p>
                 </div>
               </div>
 
@@ -116,19 +119,19 @@ export default function HomePage() {
       <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Link href="/search" className="p-5 rounded-2xl border border-emerald-900/10 bg-card hover:bg-emerald-900/5 transition space-y-2 text-center">
           <Search className="h-6 w-6 text-emerald-700 mx-auto" />
-          <h4 className="font-bold text-sm">Verse Search</h4>
+          <h4 className="font-bold text-sm">{t.verseSearchTitle}</h4>
         </Link>
         <Link href="/prayer-times" className="p-5 rounded-2xl border border-emerald-900/10 bg-card hover:bg-emerald-900/5 transition space-y-2 text-center">
           <Clock className="h-6 w-6 text-emerald-700 mx-auto" />
-          <h4 className="font-bold text-sm">Prayer Times</h4>
+          <h4 className="font-bold text-sm">{t.prayerTimesTitle}</h4>
         </Link>
         <Link href="/qibla" className="p-5 rounded-2xl border border-emerald-900/10 bg-card hover:bg-emerald-900/5 transition space-y-2 text-center">
           <Compass className="h-6 w-6 text-emerald-700 mx-auto" />
-          <h4 className="font-bold text-sm">Qibla Compass</h4>
+          <h4 className="font-bold text-sm">{t.qiblaCompassTitle}</h4>
         </Link>
         <Link href="/ramadan" className="p-5 rounded-2xl border border-emerald-900/10 bg-card hover:bg-emerald-900/5 transition space-y-2 text-center">
           <Moon className="h-6 w-6 text-amber-600 mx-auto" />
-          <h4 className="font-bold text-sm">Ramadan Hub</h4>
+          <h4 className="font-bold text-sm">{t.ramadanHubTitle}</h4>
         </Link>
       </section>
     </div>
