@@ -37,7 +37,7 @@ export function getSurahAudioUrl(surahNumber: number, reciterId = "ar.alafasy"):
 }
 
 export const ADHAN_SOUNDS = [
-  { id: "alafasy", name: "Mishary Rashid Alafasy — Ayat Al-Kursi Recitation", url: "https://everyayah.com/data/Alafasy_128kbps/002255.mp3" },
-  { id: "alafasy_fatihah", name: "Mishary Rashid Alafasy — Al-Fatihah Recitation", url: "https://everyayah.com/data/Alafasy_128kbps/001001.mp3" },
-  { id: "sudais_fatihah", name: "Abdur-Rahman As-Sudais — Al-Fatihah Recitation", url: "https://everyayah.com/data/Abdurrahmaan_As-Sudais_192kbps/001001.mp3" },
+  { id: "alafasy_kursi", name: "Mishary Rashid Alafasy — Ayat Al-Kursi Recitation", url: "https://cdn.islamic.network/quran/audio/128/ar.alafasy/262.mp3" },
+  { id: "alafasy_fatihah", name: "Mishary Rashid Alafasy — Al-Fatihah Recitation", url: "https://cdn.islamic.network/quran/audio/128/ar.alafasy/1.mp3" },
+  { id: "sudais_fatihah", name: "Abdur-Rahman As-Sudais — Al-Fatihah Recitation", url: "https://cdn.islamic.network/quran/audio/128/ar.sudais/1.mp3" },
 ];
