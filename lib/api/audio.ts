@@ -37,7 +37,7 @@ export function getSurahAudioUrl(surahNumber: number, reciterId = "ar.alafasy"):
 }
 
 export const ADHAN_SOUNDS = [
-  { id: "alafasy_kursi", name: "Mishary Rashid Alafasy — Ayat Al-Kursi Recitation", url: "https://cdn.islamic.network/quran/audio/128/ar.alafasy/262.mp3" },
-  { id: "alafasy_fatihah", name: "Mishary Rashid Alafasy — Al-Fatihah Recitation", url: "https://cdn.islamic.network/quran/audio/128/ar.alafasy/1.mp3" },
-  { id: "sudais_fatihah", name: "Abdur-Rahman As-Sudais — Al-Fatihah Recitation", url: "https://cdn.islamic.network/quran/audio/128/ar.sudais/1.mp3" },
+  { id: "makkah", name: "Makkah Al-Mukarramah Adhan (أذان مكة المكرمة)", url: "https://www.islamcan.com/audio/adhan/azan1.mp3" },
+  { id: "madinah", name: "Madinah Al-Munawwarah Adhan (أذان المدينة المنورة)", url: "https://www.islamcan.com/audio/adhan/azan2.mp3" },
+  { id: "al_aqsa", name: "Al-Aqsa Mosque Adhan (أذان المسجد الأقصى)", url: "https://www.islamcan.com/audio/adhan/azan3.mp3" },
 ];
